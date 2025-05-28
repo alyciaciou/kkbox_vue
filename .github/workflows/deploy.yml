@@ -1,10 +1,9 @@
-# .github/workflows/deploy.yml
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['main'] # 當 main 有推送時就觸發
-  workflow_dispatch:   # 也可手動部署
+    branches: ['main']        # 監聽 main 分支的 push
+  workflow_dispatch:          # 可手動部署
 
 permissions:
   contents: read
@@ -38,4 +37,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_branch: gh-pages            # 建立 gh-pages 分支
+          publish_dir: ./dist                 # 打包後目錄
+          user_name: github-actions
+          user_email: github-actions@github.com
