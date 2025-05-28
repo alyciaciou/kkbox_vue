@@ -5,5 +5,10 @@ const getToken = () => {
     return res;
 };
 
+const getNewSongs = () => {
+    const res = GET(`/api/kkbox/chart`);
+    return res;
+};
 
-export { getToken }
+
+export { getToken, getNewSongs }
