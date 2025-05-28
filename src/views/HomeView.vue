@@ -1,6 +1,109 @@
 <script setup>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import ChartSection from "@/components/ChartSection.vue";
+
+import { getToken } from "@/composables/songsListApi.js";
+
+import { onMounted } from "vue";
+import axios from "axios"
+
+onMounted(async () => {
+  try {
+    const res = await getToken();
+    console.log(res);
+    const res2 = await axios.get(
+      "https://api.kkbox.com/v1.1/charts/LZPhK2EyYzN15dU-PT/tracks?territory=TW&limit=30",
+      {
+        headers: {
+          Authorization: `Bearer ${res.data.access_token}`,
+        },
+      }
+    );
+    console.log(res2)
+  } catch (error) {}
+});
+
+const topSongs = [
+  {
+    image: "https://placekitten.com/400/400",
+    title: "G.E.M. 鄧紫棋",
+    artist: "不想回家",
+    tag: "TOP",
+  },
+  {
+    image: "https://placekitten.com/401/400",
+    title: "陳芳語",
+    artist: "Sunset in May",
+    tag: "",
+  },
+  {
+    image: "https://placekitten.com/401/400",
+    title: "陳芳語",
+    artist: "Sunset in May",
+    tag: "",
+  },
+  {
+    image: "https://placekitten.com/401/400",
+    title: "陳芳語",
+    artist: "Sunset in May",
+    tag: "",
+  },
+];
+
+const explosiveSongs = [
+  {
+    image: "https://placekitten.com/402/400",
+    title: "西洋爆爆歌",
+    artist: "某某男歌手",
+    tag: "NEW",
+  },
+  {
+    image: "https://placekitten.com/403/400",
+    title: "韓流爆爆歌",
+    artist: "TREASURE",
+    tag: "HOT",
+  },
+  {
+    image: "https://placekitten.com/403/400",
+    title: "韓流爆爆歌",
+    artist: "TREASURE",
+    tag: "HOT",
+  },
+  {
+    image: "https://placekitten.com/403/400",
+    title: "韓流爆爆歌",
+    artist: "TREASURE",
+    tag: "HOT",
+  },
+];
+
+const wallSongs = [
+  {
+    image: "https://placekitten.com/404/400",
+    title: "抖音神曲",
+    artist: "聽完直接抖三下",
+    tag: "",
+  },
+  {
+    image: "https://placekitten.com/404/400",
+    title: "抖音神曲",
+    artist: "聽完直接抖三下",
+    tag: "",
+  },
+  {
+    image: "https://placekitten.com/404/400",
+    title: "抖音神曲",
+    artist: "聽完直接抖三下",
+    tag: "",
+  },
+  {
+    image: "https://placekitten.com/404/400",
+    title: "抖音神曲",
+    artist: "聽完直接抖三下",
+    tag: "",
+  },
+];
 </script>
 
 <template>
@@ -31,7 +134,9 @@ import Footer from "@/components/Footer.vue";
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
           <div>
-            <span class="material-symbols-outlined text-7xl"> queue_music </span>
+            <span class="material-symbols-outlined text-7xl">
+              queue_music
+            </span>
             <div class="bg-gray-800 hover:bg-gray-700 h-full rounded-md">
               <div class="p-4 bg-hover">
                 <h3 class="mb-3 text-xl font-bold">即時新歌</h3>
@@ -40,7 +145,9 @@ import Footer from "@/components/Footer.vue";
             </div>
           </div>
           <div>
-            <span class="material-symbols-outlined text-7xl"> youtube_activity </span>
+            <span class="material-symbols-outlined text-7xl">
+              youtube_activity
+            </span>
             <div class="bg-gray-800 hover:bg-gray-700 h-full rounded-md">
               <div class="p-4 bg-hover">
                 <h3 class="mb-3 text-xl font-bold">串接YouTube</h3>
@@ -60,64 +167,9 @@ import Footer from "@/components/Footer.vue";
         </div>
       </section>
       <section class="container mx-auto">
-        <div class="mb-5">
-          <div
-            class="text-center flex flex-col sm:flex-row items-center justify-center mb-3"
-          >
-            <p
-              class="text-center text-white text-3xl md:text-4xl font-bold mb-3 sm:mb-0 sm:mr-5"
-            >
-              新歌即時榜 TOP 4
-            </p>
-            <a
-              class="no-underline whitespace-nowrap font-bold border border-white text-white py-2 px-4 rounded"
-              href="./pages/charts.html"
-              >完整榜單</a
-            >
-          </div>
-          <div
-            class="grid grid-cols-1 md:grid-cols-4 gap-4 justify-items-center"
-            data-chartSongs="chartSongs"
-          >
-            <div class="text-center">
-              <div class="spinner-border text-light" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mb-5">
-          <p class="text-white text-center text-3xl md:text-4xl font-bold mb-3">
-            速爆新歌
-          </p>
-          <div
-            class="grid grid-cols-1 md:grid-cols-4 gap-4 justify-items-center"
-            data-hitsSongs="hitsSongs"
-          >
-            <div class="text-center">
-              <div class="spinner-border text-light" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <p class="text-white text-center text-3xl md:text-4xl font-bold mb-3">
-            情境歌單
-          </p>
-          <div
-            class="grid grid-cols-1 md:grid-cols-4 gap-4 justify-items-center"
-            data-sessionSongs="sessionSongs"
-          >
-            <div class="text-center">
-              <div class="spinner-border text-light" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ChartSection title="新歌即時榜 TOP 4" :songs="topSongs" />
+        <ChartSection title="速爆新歌" :songs="explosiveSongs" />
+        <ChartSection title="牆牆歌單" :songs="wallSongs" />
       </section>
     </main>
     <Footer />
