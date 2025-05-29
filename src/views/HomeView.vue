@@ -3,99 +3,42 @@ import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import ChartSection from "@/components/ChartSection.vue";
 
-import { getToken, getNewSongs } from "@/composables/songsListApi.js";
+import { getToken, getNewSongs, getNewHitSongs, getSessionsSongs } from "@/composables/songsListApi.js";
 
-import { onMounted } from "vue";
+import { onBeforeMount, ref } from "vue";
 
-onMounted(async () => {
+const topSongs = ref([]);
+const explosiveSongs = ref([]);
+const wallSongs = ref([]);
+
+onBeforeMount(async () => {
     try {
-        const res = await getToken();
-        console.log(res);
-        const res2 = await getNewSongs();
-        console.log(res2);
+        await getToken();
+        const results = await Promise.allSettled([
+        getNewSongs(),
+        getNewHitSongs(),
+        getSessionsSongs(),
+        ])
+
+        results.forEach((result, index) => {
+            if (result.status === "fulfilled") {
+                switch (index) {
+                    case 0:
+                    topSongs.value = result.value.data.data.slice(0, 4)
+                        break
+                    case 1:
+                    explosiveSongs.value = result.value.data.data.slice(0, 4)
+                        break
+                    case 2:
+                    wallSongs.value = result.value.data.data.slice(0, 4)
+                        break
+
+                }
+            }
+        })
     } catch (error) {}
 });
 
-const topSongs = [
-    {
-        image: "https://placekitten.com/400/400",
-        title: "G.E.M. 鄧紫棋",
-        artist: "不想回家",
-        tag: "TOP",
-    },
-    {
-        image: "https://placekitten.com/401/400",
-        title: "陳芳語",
-        artist: "Sunset in May",
-        tag: "",
-    },
-    {
-        image: "https://placekitten.com/401/400",
-        title: "陳芳語",
-        artist: "Sunset in May",
-        tag: "",
-    },
-    {
-        image: "https://placekitten.com/401/400",
-        title: "陳芳語",
-        artist: "Sunset in May",
-        tag: "",
-    },
-];
-
-const explosiveSongs = [
-    {
-        image: "https://placekitten.com/402/400",
-        title: "西洋爆爆歌",
-        artist: "某某男歌手",
-        tag: "NEW",
-    },
-    {
-        image: "https://placekitten.com/403/400",
-        title: "韓流爆爆歌",
-        artist: "TREASURE",
-        tag: "HOT",
-    },
-    {
-        image: "https://placekitten.com/403/400",
-        title: "韓流爆爆歌",
-        artist: "TREASURE",
-        tag: "HOT",
-    },
-    {
-        image: "https://placekitten.com/403/400",
-        title: "韓流爆爆歌",
-        artist: "TREASURE",
-        tag: "HOT",
-    },
-];
-
-const wallSongs = [
-    {
-        image: "https://placekitten.com/404/400",
-        title: "抖音神曲",
-        artist: "聽完直接抖三下",
-        tag: "",
-    },
-    {
-        image: "https://placekitten.com/404/400",
-        title: "抖音神曲",
-        artist: "聽完直接抖三下",
-        tag: "",
-    },
-    {
-        image: "https://placekitten.com/404/400",
-        title: "抖音神曲",
-        artist: "聽完直接抖三下",
-        tag: "",
-    },
-    {
-        image: "https://placekitten.com/404/400",
-        title: "抖音神曲",
-        artist: "聽完直接抖三下",
-        tag: "",
-    },
-];
 </script>
 
 <template>
@@ -180,7 +123,7 @@ const wallSongs = [
                     :showBtn="false"
                 />
                 <ChartSection
-                    title="牆牆歌單"
+                    title="情境歌單"
                     :songs="wallSongs"
                     :showBtn="false"
                 />

@@ -4,7 +4,7 @@
     >
         <div>
             <img
-                :src="data.image"
+                :src="data?.album?.images?.[2]?.url || data?.images?.[2]?.url"
                 alt="封面"
                 class="rounded-md w-full object-cover mb-4 aspect-square"
             />
@@ -14,13 +14,27 @@
                 }}</span>
             </div>
             <h3 class="text-base font-semibold truncate mb-1">
-                {{ data.title }}
+                {{ data?.album?.name || data?.title }}
             </h3>
-            <p class="text-sm text-gray-300 line-clamp-2">{{ data.artist }}</p>
+            <p class="text-sm text-gray-300 line-clamp-2">
+                {{
+                    data?.["album"]?.["artist"]?.["name"] ||
+                    data?.["description"]
+                }}
+            </p>
+            <p class="text-sm text-gray-300 line-clamp-2">
+                {{ data?.["owner"]?.["description"] }}
+            </p>
         </div>
         <button
+            @click="
+                router.push({
+                    name: 'HitsSongs',
+                    params: { id: `${data?.['id']}` },
+                })
+            "
             v-if="showListBtn"
-            class="mt-4 bg-white text-black text-sm font-semibold rounded px-3 py-1.5 hover:bg-gray-200 transition"
+            class="mt-4 bg-white text-black text-sSpy-1.5 hover:bg-gray-200 transition"
         >
             前往歌單
         </button>
@@ -28,14 +42,18 @@
 </template>
 
 <script setup>
-defineProps({
-    data: {
-        type: Object,
-        required: true,
-    },
-    showListBtn: {
-        type: Boolean,
-        default: true,
-    },
-});
+    import { useRouter } from "vue-router"
+
+    const router = useRouter()
+
+    defineProps({
+        data: {
+            type: Object,
+            required: true,
+        },
+        showListBtn: {
+            type: Boolean,
+            default: true,
+        },
+    })
 </script>

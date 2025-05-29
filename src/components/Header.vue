@@ -8,7 +8,7 @@
             </h1>
         <div class=" flex flex-col md:flex-row items-center justify-between ">
             <input class="w-full md:w-[74%] md:mr-3 mb-3 md:mb-0 rounded-md p-2 text-zinc-800" type="search" placeholder="請輸入歌名">
-            <button class="text-lg w-full md:w-[24%] text-white border rounded-md hover:bg-slate-50 hover:text-slate-900 p-1" type="button">搜尋</button>
+            <button class="text-lg w-full md:w-[24%] text-white border-2 rounded-md hover:bg-slate-50 hover:text-slate-900 p-1" type="button">搜尋</button>
         </div>
     </div>
 </template>

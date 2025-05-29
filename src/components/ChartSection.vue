@@ -3,8 +3,14 @@
         <div class="flex justify-center items-center font-bold mb-8">
             <h2 class="text-4xl text-center mr-8">{{ title }}</h2>
             <button
+                @click="
+                    router.push({
+                        name: 'HitsSongs',
+                        params: { id: 'LZPhK2EyYzN15dU-PT' },
+                    })
+                "
                 v-if="showBtn"
-                class="text-lg w-24 text-white border rounded-md hover:bg-slate-50 hover:text-slate-900 p-1"
+                class="text-lg w-24 text-white border-2 rounded-md hover:bg-slate-50 hover:text-slate-900 p-1"
                 type="button"
             >
                 完整榜單
@@ -22,14 +28,17 @@
 </template>
 
 <script setup>
-import SongCard from "./SongCard.vue";
+    import SongCard from "./SongCard.vue"
+    import { useRouter } from "vue-router"
 
-defineProps({
-    title: String,
-    songs: Array,
-    showBtn: {
-        type: Boolean,
-        default: true,
-    },
-});
+    const router = useRouter()
+
+    defineProps({
+        title: String,
+        songs: Array,
+        showBtn: {
+            type: Boolean,
+            default: true,
+        },
+    })
 </script>
