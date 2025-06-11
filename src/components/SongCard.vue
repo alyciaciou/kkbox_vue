@@ -30,7 +30,7 @@
             @click="
                 router.push({
                     name: 'HitsSongs',
-                    params: { id: `${data?.['id']}` },
+                    params: { id: `${data?.['id']}`, type: '其他歌單' },
                 })
             "
             v-if="showListBtn"

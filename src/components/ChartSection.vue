@@ -6,7 +6,7 @@
                 @click="
                     router.push({
                         name: 'HitsSongs',
-                        params: { id: 'LZPhK2EyYzN15dU-PT' },
+                        params: { id: 'LZPhK2EyYzN15dU-PT', type: '完整榜單' },
                     })
                 "
                 v-if="showBtn"
