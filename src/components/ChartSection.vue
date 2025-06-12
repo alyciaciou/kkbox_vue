@@ -16,12 +16,20 @@
                 完整榜單
             </button>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div
+            :class="[
+                'grid gap-4',
+                size === 'small'
+                    ? 'grid-cols-3 md:grid-cols-6'
+                    : 'grid-cols-2 md:grid-cols-4',
+            ]"
+        >
             <SongCard
                 v-for="(song, index) in songs"
                 :key="index"
                 :data="song"
                 :showListBtn="!showBtn"
+                :size="size"
             />
         </div>
     </section>
@@ -39,6 +47,10 @@
         showBtn: {
             type: Boolean,
             default: true,
+        },
+        size: {
+            type: String,
+            default: "normal",
         },
     })
 </script>

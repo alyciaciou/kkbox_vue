@@ -4,19 +4,33 @@
         <h2 class="text-center text-2xl font-bold mb-6 px-12">華語速爆新歌</h2>
         <div class="flex flex-col sm:flex-row justify-center items-center">
             <button
-                @click="isHidden = false"
+                @click="isHidden = true"
                 class="text-lg w-24 text-white border-2 rounded-md hover:bg-slate-50 hover:text-slate-900 p-1 sm:mr-2 mb-2 sm:mb-0"
                 type="button"
             >
                 開始試聽
             </button>
             <button
-                @click="isHidden = true"
+                @click="isHidden = false"
                 class="text-lg w-24 text-white border-2 rounded-md hover:bg-slate-50 hover:text-slate-900 p-1"
                 type="button"
             >
                 結束試聽
             </button>
+        </div>
+
+        <!-- 浮動 KKBOX 播放器 -->
+        <div
+            v-if="isHidden"
+            class="fixed bottom-0 sm:bottom-40 left-1/2 -translate-x-1/2 z-50 sm:w-[300px] w-[250px] bg-zinc-900 rounded-lg overflow-hidden shadow"
+        >
+            <iframe
+                :src="kkboxEmbedUrl"
+                frameborder="0"
+                type="text/html"
+                width="100%"
+                height="500px"
+            ></iframe>
         </div>
 
         <div
@@ -25,20 +39,6 @@
             <div
                 class="flex flex-col lg:flex-row gap-6 justify-center items-center w-full"
             >
-                <!-- KKBOX 播放器 -->
-                <div
-                    class="w-full lg:w-1/3 bg-zinc-900 rounded-lg overflow-hidden shadow"
-                    :class="{ hidden: isHidden }"
-                >
-                    <iframe
-                        :src="kkboxEmbedUrl"
-                        frameborder="0"
-                        type="text/html"
-                        width="100%"
-                        height="500px"
-                    ></iframe>
-                </div>
-
                 <!-- YouTube 影片 -->
                 <div
                     class="w-full bg-zinc-900 rounded-lg shadow flex justify-center items-center"
@@ -119,7 +119,7 @@
             }
         } catch (error) {}
     })
-    const isHidden = ref(true)
+    const isHidden = ref(false)
     const kkboxEmbedUrl = computed(() => {
         return `https://widget.kkbox.com/v1/?id=${encodeURIComponent(
             route.params.id

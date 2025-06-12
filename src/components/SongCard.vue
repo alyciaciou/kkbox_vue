@@ -1,30 +1,62 @@
 <template>
     <div
-        class="bg-zinc-900 text-white rounded-xl shadow p-4 flex flex-col justify-between"
+        :class="[
+            'text-white rounded-xl shadow flex flex-col justify-between bg-zinc-900',
+            size === 'small' ? 'p-2' : 'p-4',
+        ]"
     >
         <div>
             <img
-                :src="data?.album?.images?.[2]?.url || data?.images?.[2]?.url"
+                :src="
+                    size === 'small'
+                        ? data?.album?.images?.[0]?.url ||
+                          data?.images?.[0]?.url
+                        : data?.album?.images?.[2]?.url ||
+                          data?.images?.[2]?.url
+                "
                 alt="封面"
-                class="rounded-md w-full object-cover mb-4 aspect-square"
+                :class="[
+                    'rounded-md w-full object-cover mb-2',
+                    size === 'small' ? 'aspect-square' : 'aspect-square mb-4',
+                ]"
             />
             <div v-if="data.tag" class="text-sm text-gray-400 mb-1">
                 <span class="bg-zinc-700 text-xs px-2 py-0.5 rounded">{{
                     data.tag
                 }}</span>
             </div>
-            <h3 class="text-base font-semibold truncate mb-1">
+            <h3
+                :class="
+                    size === 'small'
+                        ? 'text-sm font-semibold truncate mb-0.5'
+                        : 'text-base font-semibold truncate mb-1'
+                "
+            >
                 {{ data?.album?.name || data?.title }}
             </h3>
-            <p class="text-sm text-gray-300 line-clamp-2">
+            <p
+                :class="
+                    size === 'small'
+                        ? 'text-xs text-gray-300 line-clamp-2'
+                        : 'text-sm text-gray-300 line-clamp-2'
+                "
+            >
                 {{
                     data?.["album"]?.["artist"]?.["name"] ||
                     data?.["description"]
                 }}
             </p>
-            <p class="text-sm text-gray-300 line-clamp-2">
-                {{ data?.["owner"]?.["description"] }}
-            </p>
+            <template v-if="data && data.owner && data.owner.description">
+                <p
+                    :class="
+                        size === 'small'
+                            ? 'text-xs text-gray-300 line-clamp-2'
+                            : 'text-sm text-gray-300 line-clamp-2'
+                    "
+                >
+                    {{ data.owner.description }}
+                </p>
+            </template>
         </div>
         <button
             @click="
@@ -34,9 +66,12 @@
                 })
             "
             v-if="showListBtn"
-            class="mt-4 bg-white text-black text-sSpy-1.5 hover:bg-gray-200 transition"
+            :class="[
+                'bg-white text-black hover:bg-gray-200 transition rounded',
+                size === 'small' ? 'mt-2  p-1' : 'mt-4  p-2',
+            ]"
         >
-            前往歌單
+            {{ size === "small" ? "試聽" : "前往歌單" }}
         </button>
     </div>
 </template>
@@ -54,6 +89,10 @@
         showListBtn: {
             type: Boolean,
             default: true,
+        },
+        size: {
+            type: String,
+            default: "normal",
         },
     })
 </script>
