@@ -20,7 +20,7 @@
             :class="[
                 'grid gap-4',
                 size === 'small'
-                    ? 'grid-cols-3 md:grid-cols-6'
+                    ? 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6'
                     : 'grid-cols-2 md:grid-cols-4',
             ]"
         >
@@ -30,16 +30,17 @@
                 :data="song"
                 :showListBtn="!showBtn"
                 :size="size"
+                @search="$emit('search', song)"
             />
         </div>
     </section>
 </template>
 
 <script setup>
-    import SongCard from "./SongCard.vue"
-    import { useRouter } from "vue-router"
+    import SongCard from "./SongCard.vue";
+    import { useRouter } from "vue-router";
 
-    const router = useRouter()
+    const router = useRouter();
 
     defineProps({
         title: String,
@@ -52,5 +53,5 @@
             type: String,
             default: "normal",
         },
-    })
+    });
 </script>

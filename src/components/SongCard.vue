@@ -60,10 +60,14 @@
         </div>
         <button
             @click="
-                router.push({
-                    name: 'HitsSongs',
-                    params: { id: `${data?.['id']}`, type: '其他歌單' },
-                })
+                if (size === 'small') {
+                    $emit('search', data);
+                } else {
+                    router.push({
+                        name: 'HitsSongs',
+                        params: { id: `${data?.['id']}`, type: '其他歌單' },
+                    });
+                }
             "
             v-if="showListBtn"
             :class="[
@@ -77,9 +81,9 @@
 </template>
 
 <script setup>
-    import { useRouter } from "vue-router"
+    import { useRouter } from "vue-router";
 
-    const router = useRouter()
+    const router = useRouter();
 
     defineProps({
         data: {
@@ -94,5 +98,5 @@
             type: String,
             default: "normal",
         },
-    })
+    });
 </script>
